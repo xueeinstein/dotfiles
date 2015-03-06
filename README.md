@@ -1,4 +1,4 @@
-# Mathias’s dotfiles
+# Mathias’s dotfiles Plus
 
 ![Screenshot of my shell prompt](http://i.imgur.com/EkEtphC.png)
 
@@ -86,9 +86,8 @@ Suggestions/improvements
 
 ## Author
 
-| [![twitter/mathias](http://gravatar.com/avatar/24e08a9ea84deb17ae121074d0f17125?s=70)](http://twitter.com/mathias "Follow @mathias on Twitter") |
-|---|
-| [Mathias Bynens](https://mathiasbynens.be/) |
+* [Bill Xue](http://xueeinstein.me)
+* [Mathias Bynens](https://mathiasbynens.be/)
 
 ## Thanks to…
 
