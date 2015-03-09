@@ -5,6 +5,33 @@ let g:solarized_termtrans=1
 
 " Make Vim more useful
 set nocompatible
+
+" <begin> configure bundles
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
+
+" My bundles here:
+
+" original repos on GitHub
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+"
+" Brief help
+" :BundleList          - list configured bundles
+" :BundleInstall(!)    - install (update) bundles
+" :BundleSearch(!) foo - search (or refresh cache first) for foo
+" :BundleClean(!)      - confirm (or auto-approve) removal of unused bundles
+"
+" see :h vundle for more details or wiki for FAQ
+" <end> configure bundles
+
+
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
 " Enhance command-line completion
@@ -26,7 +53,8 @@ set binary
 set noeol
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
+" comment to unable swaps
+" set directory=~/.vim/swaps
 if exists("&undodir")
 	set undodir=~/.vim/undo
 endif
@@ -46,8 +74,10 @@ set number
 syntax on
 " Highlight current line
 set cursorline
-" Make tabs as wide as two spaces
-set tabstop=2
+" Set up how many columns text is indented with reindent operations and automatic C-style indentation
+set shiftwidth=4
+" Make tabs as wide as four spaces
+set tabstop=4
 " Show “invisible” characters
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set list
@@ -75,6 +105,16 @@ set showmode
 set title
 " Show the (partial) command as it’s being typed
 set showcmd
+" Set words wrap when over certain columns
+set wrap
+" Use auto indent, and smart indent according to filetype
+set autoindent
+set smartindent
+filetype plugin on
+filetype indent on
+" map <> : NERDTree<cr>
+map <C-t> :NERDTree<cr>
+map <C-o> :TlistToggle<cr>
 " Use relative line numbers
 if exists("&relativenumber")
 	set relativenumber

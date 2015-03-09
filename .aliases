@@ -4,14 +4,15 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
-alias -- -="cd -"
+alias ~-="cd -"
 
 # Shortcuts
-alias d="cd ~/Documents/Dropbox"
+alias d="cd ~/Documents"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
-alias p="cd ~/projects"
+alias p="cd ~/Code"
 alias g="git"
+alias gr="grep"
 alias h="history"
 alias j="jobs"
 
@@ -23,13 +24,13 @@ else # OS X `ls`
 fi
 
 # List all files colorized in long format
-alias l="ls -lF ${colorflag}"
+alias l="ls -hF ${colorflag}"
 
 # List all files colorized in long format, including dot files
-alias la="ls -laF ${colorflag}"
+alias la="ls -lhaF ${colorflag}"
 
 # List only directories
-alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
+alias lsd="ls -lhF ${colorflag} | grep --color=never '^d'"
 
 # Always use color output for `ls`
 alias ls="command ls ${colorflag}"
