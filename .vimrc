@@ -55,6 +55,7 @@ set noeol
 set backupdir=~/.vim/backups
 " comment to unable swaps
 " set directory=~/.vim/swaps
+set noswapfile
 if exists("&undodir")
 	set undodir=~/.vim/undo
 endif
