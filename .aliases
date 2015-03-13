@@ -25,12 +25,15 @@ fi
 
 # List all files colorized in long format
 alias l="ls -hF ${colorflag}"
+alias lm="ls -hF ${colorflag} | more"
 
 # List all files colorized in long format, including dot files
 alias la="ls -lhaF ${colorflag}"
+alias lam="ls -lhaF ${colorflag} | more"
 
 # List only directories
 alias lsd="ls -lhF ${colorflag} | grep --color=never '^d'"
+alias lsdm="ls -lhF ${colorflag} | grep --color=never '^d' | more"
 
 # Always use color output for `ls`
 alias ls="command ls ${colorflag}"

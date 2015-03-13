@@ -267,14 +267,33 @@ function ldir() {
 		done
 	else
 		abs_path=''
-		if [[ $1 == '-d' ]]; then
+		if [[ $1 == '-da' ]]; then
 			LDIR=('_Quit_ldir_');
 			echo "Dir list resetted!";
-			return 1;
+			return 0;
+		fi
+
+		if [[ $1 == '-d' ]]; then
+			removeDirsIdx=(${@/$1});
+			# get removeDirs
+			removeDirs=();
+			for i in ${removeDirsIdx[@]}
+			# Attention ! 
+			# here is unsafe ! as if input is not digital
+			do
+				idx=$(calc "$i-1");
+				removeDirs+=(${LDIR[$idx]});
+			done
+			for del in ${removeDirs[@]}
+			do 
+				LDIR=(${LDIR[@]/$del});
+			done
+			return 0;
 		fi
 
 		if [[ $1 == '-l' ]]; then
 			echo ${LDIR[@]};
+			return 0;
 		fi
 
 		if [[ $1 =~ ^/ ]]; then
