@@ -244,3 +244,59 @@ function o() {
 function tre() {
 	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
+
+# `ldir` shows the environment array ldir
+function ldir() {
+	if [ $# -eq 0 ]; then
+		PS3="Please select the directory to switch: "
+		select opt in "${LDIR[@]}"
+		do
+			if ! containsEle "$opt" "${LDIR[@]}"; then
+				echo "Invaild option!";
+				continue;
+			fi
+			case $opt in
+				"_Quit_ldir_")
+					return 0
+					;;
+				*)
+					cd $opt;
+					return 0
+					;;
+			esac
+		done
+	else
+		abs_path=''
+		if [[ $1 == '-d' ]]; then
+			LDIR=('_Quit_ldir_');
+			echo "Dir list resetted!";
+			return 1;
+		fi
+
+		if [[ $1 == '-l' ]]; then
+			echo ${LDIR[@]};
+		fi
+
+		if [[ $1 =~ ^/ ]]; then
+			abs_path=$1
+		else
+			abs_path=$( cd "$1" && pwd );
+		fi
+		if [ ! -d "$abs_path" ]; then
+			echo "$abs_path doesn't exist!";
+			return 1;
+		fi
+
+		if ! containsEle "$abs_path" "${LDIR[@]}"; then
+			LDIR+=($abs_path);
+		fi
+		echo ${LDIR[@]};
+		return 0;
+	fi
+}
+function containsEle() {
+	local e
+	for e in "${@:2}";
+	do [[ "$e" == "$1" ]] && return 0; done
+	return 1
+}
