@@ -13,3 +13,10 @@
 [submodule "sparkup"]
   path = .vim/bundle/sparkup
   url = https://github.com/rstacruz/sparkup.git
+
+[submodule "tpm"]
+  path = .tmux/plugins/tpm
+  url = https://github.com/tmux-plugins/tpm
+[submodule ".tmux/plugins/tpm"]
+	path = .tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm

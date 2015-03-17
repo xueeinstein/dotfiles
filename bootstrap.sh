@@ -23,6 +23,7 @@ function doIt() {
 		--exclude "README.md" --exclude "LICENSE-MIT.txt" --exclude "tmp/" \
 		-avh --no-perms . ~;
 	source ~/.bash_profile;
+	tmux source-file ~/.tmux.conf;
 }
 
 function restore() {
