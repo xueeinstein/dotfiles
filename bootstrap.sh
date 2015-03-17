@@ -21,6 +21,7 @@ function  backup() {
 function doIt() {
 	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
 		--exclude "README.md" --exclude "LICENSE-MIT.txt" --exclude "tmp/" \
+		--exclude "Session.vim" \
 		-avh --no-perms . ~;
 	source ~/.bash_profile;
 	tmux source-file ~/.tmux.conf;
