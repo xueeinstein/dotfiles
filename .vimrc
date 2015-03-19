@@ -142,6 +142,18 @@ filetype indent on
 " map <> : NERDTree<cr>
 map <C-t> :NERDTree<cr>
 map <C-o> :TlistToggle<cr>
+
+" window navigation easily
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+nmap <C-h> <C-w>r
+
+" split window vertically
+nmap <leader>v <C-w>v<C-w>l
+" split window horizontally
+nmap <leader>s <C-w>s<C-w>j
+
 " Use relative line numbers
 if exists("&relativenumber")
 	set relativenumber
