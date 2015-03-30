@@ -9,10 +9,10 @@ set nocompatible
 " <begin> configure bundles
 filetype off
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call vundle#begin()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/vundle'
 
 " My bundles here:
