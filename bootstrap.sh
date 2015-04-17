@@ -8,7 +8,7 @@ if [ ! -d "tmp" ]; then
 	mkdir tmp;
 fi
 
-function  backup() {
+function backup() {
 	ls -a ~ | tail -n +3 > tmp/old;
 	ls -a . | tail -n +3 | grep -v -w 'tmp' > tmp/new;
 	commFiles=$(comm -12 tmp/old tmp/new);
