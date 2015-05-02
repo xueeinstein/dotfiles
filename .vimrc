@@ -34,7 +34,13 @@ Plugin 'honza/vim-snippets'
 " Support same vim session
 Plugin 'tpope/vim-obsession'
 
+" Syntax highlighting and indenting for jsx
+Plugin 'mxw/vim-jsx'
+
 call vundle#end()
+
+" let vim-jsx works in .js file
+let g:jsx_ext_required = 0
 
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -176,6 +182,8 @@ endfunction
 noremap <leader>ss :call StripWhitespace()<CR>
 " Save a file as root (,W)
 noremap <leader>W :w !sudo tee % > /dev/null<CR>
+" delete windows linesep
+noremap <leader>dw :%s///g<CR>
 
 " Automatic commands
 if has("autocmd")
