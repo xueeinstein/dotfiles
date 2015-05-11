@@ -110,10 +110,13 @@ set number
 syntax on
 " Highlight current line
 set cursorline
+" Indentation without hard tabs
+set expandtab
 " Set up how many columns text is indented with reindent operations and automatic C-style indentation
-set shiftwidth=4
-" Make tabs as wide as four spaces
-set tabstop=4
+set shiftwidth=2
+" Make tabs as wide as two spaces
+" set tabstop=2
+set softtabstop=2
 " Show “invisible” characters
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set list
@@ -146,6 +149,7 @@ set wrap
 " Use auto indent, and smart indent according to filetype
 set autoindent
 set smartindent
+set cindent
 filetype plugin on
 filetype indent on
 " map <> : NERDTree<cr>
