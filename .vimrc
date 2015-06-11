@@ -188,6 +188,8 @@ noremap <leader>ss :call StripWhitespace()<CR>
 noremap <leader>W :w !sudo tee % > /dev/null<CR>
 " delete windows linesep
 noremap <leader>dw :%s///g<CR>
+" replace tab to two spaces
+noremap <leader>di :%s/	/\ \ /g<CR>
 
 " Automatic commands
 if has("autocmd")
