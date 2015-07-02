@@ -37,6 +37,9 @@ Plugin 'tpope/vim-obsession'
 " Syntax highlighting and indenting for jsx
 Plugin 'mxw/vim-jsx'
 
+" Support to write LaTeX documents
+Plugin 'lervag/vimtex'
+
 call vundle#end()
 
 " let vim-jsx works in .js file
@@ -83,6 +86,8 @@ set gdefault
 set encoding=utf-8 nobomb
 " Change mapleader
 let mapleader=","
+" Change localleader to '\'
+let maplocalleader = "\\"
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
