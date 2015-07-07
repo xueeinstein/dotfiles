@@ -69,6 +69,9 @@ alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET
 # Config thefuck
 alias fuck='eval $(thefuck $(fc -ln -1)); history -r'
 
+# config to see system installed fonts
+alias fonts='fc-list  | cut -d\  -f2-99 | cut -d: -f1 | sort -u'
+
 # Canonical hex dump; some systems have this symlinked
 command -v hd > /dev/null || alias hd="hexdump -C"
 
