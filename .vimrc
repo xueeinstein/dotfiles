@@ -40,6 +40,9 @@ Plugin 'mxw/vim-jsx'
 " Support to write LaTeX documents
 Plugin 'lervag/vimtex'
 
+" Support to write go code
+Plugin 'fatih/vim-go'
+
 call vundle#end()
 
 " let vim-jsx works in .js file
