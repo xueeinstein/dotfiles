@@ -260,7 +260,7 @@ function ldir() {
 					return 0
 					;;
 				*)
-					cd $opt;
+					cd "$opt";
 					return 0
 					;;
 			esac
@@ -278,14 +278,14 @@ function ldir() {
 			# get removeDirs
 			removeDirs=();
 			for i in ${removeDirsIdx[@]}
-			# Attention ! 
+			# Attention !
 			# here is unsafe ! as if input is not digital
 			do
 				idx=$(calc "$i-1");
 				removeDirs+=(${LDIR[$idx]});
 			done
 			for del in ${removeDirs[@]}
-			do 
+			do
 				LDIR=(${LDIR[@]/$del});
 			done
 			return 0;
@@ -307,7 +307,7 @@ function ldir() {
 		fi
 
 		if ! containsEle "$abs_path" "${LDIR[@]}"; then
-			LDIR+=($abs_path);
+			LDIR+=("$abs_path");
 		fi
 		echo ${LDIR[@]};
 		return 0;
