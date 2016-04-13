@@ -53,8 +53,11 @@ if [ "$1" == "--force" -o "$1" == "-f" ]; then
 elif [ "$1" == "--restore" -o "$1" == "-r" ]; then
 	echo "restore...";
 	restore;
+elif [ "$1" == "--backup" -o "$1" == "-b" ]; then
+	echo "backup...";
+        backup;
 else
 	backup;
-	doIt;
+        doIt;
 fi;
 unset doIt;
