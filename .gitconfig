@@ -164,3 +164,6 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
+[user]
+	name = xueeinstein
+	email = xueeinstein@gmail.com
