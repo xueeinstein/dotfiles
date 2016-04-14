@@ -4,35 +4,36 @@
 
 ## Installation
 
+### Preparation
+
+Install `git` and `rsync`. To best leverage this dotfiles features, it's recommended to install `tmux`.
+
 ### Using Git and the bootstrap script
 
 You can clone the repository wherever you want. (I like to keep it in `~/Projects/dotfiles`, with `~/dotfiles` as a symlink.) The bootstrapper script will pull in the latest version and copy the files to your home folder.
 
 ```bash
-git clone https://github.com/mathiasbynens/dotfiles.git && cd dotfiles && source bootstrap.sh
+git clone --recursive https://github.com/xueeinstein/dotfiles.git && cd dotfiles && source bootstrap.sh
 ```
 
-To update, `cd` into your local `dotfiles` repository and then:
+By default, it will backup your local dotfiles into `tmp/` and then install new dotfiles.
+
+To update, `cd` into your local `dotfiles` repository and update configuration as your need then:
 
 ```bash
-source bootstrap.sh
+source bootstrap.sh -f
 ```
 
-Alternatively, to update while avoiding the confirmation prompt:
+To restore your backup, `cd` into your local `dotfiles` repository and then:
 
 ```bash
-set -- -f; source bootstrap.sh
+source bootstrap.sh -r
 ```
 
-### Git-free install
+### Get Tmux & Vim ready
 
-To install these dotfiles without Git:
-
-```bash
-cd; curl -#L https://github.com/mathiasbynens/dotfiles/tarball/master | tar -xzv --strip-components 1 --exclude={README.md,bootstrap.sh,LICENSE-MIT.txt}
-```
-
-To update later on, just run that command again.
+After installation, launch `vim` and run `:PluginInstall`, launch
+ `tmux` and press `Ctrl-A`, then run `Shift i` to install tmux plugins.
 
 ### Specify the `$PATH`
 
