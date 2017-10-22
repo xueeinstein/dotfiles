@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ "$1" == "-h" ]; then
+  echo "preview-latex file.tex"
+else
+  pdf_file=$(echo "$1" | sed "s/\.tex/\.pdf/g")
+  echo $pdf_file
+  evince $pdf_file &
+  latexmk -pdf -pvc $1
+fi
