@@ -1,0 +1,8 @@
+#!/bin/bash
+DIRECTORY=$1
+TARGET=$2
+
+while inotifywait --exclude ".git/" -r -e modify,create,delete $DIRECTORY; do
+    #rsync --exclude ".git/" -avz $DIRECTORY $TARGET
+    rsync --exclude ".git/" -avz --no-o --no-g $DIRECTORY $TARGET
+done
