@@ -1,0 +1,45 @@
+#!/bin/bash
+
+ME="username"
+IP="server-ip"
+
+CODEBASE="working-project"
+
+THIS=`basename "$0"`
+
+if [[ $1 == "-u" ]]; then
+  # upload, i.e. sync some files to remote
+  if [[ $3 == "" ]]; then
+    scp $2 $ME@$IP:/home/$ME/$2
+  else
+    scp $2 $ME@$IP:/home/$ME/$3
+  fi
+elif [[ $1 == "-d" ]]; then
+  # download, i.e. sync some remote files to local
+  if [[ $3 == "" ]]; then
+    scp $ME@$IP:/home/$ME/$2 $2
+  else
+    scp $ME@$IP:/home/$ME/$2 $3
+  fi
+elif [[ $1 == "-h" ]]; then
+  echo "login with ssh: ees"
+  echo "sync local file to remote server: $THIS -u local_filename [remote_filename]"
+  echo "sync remote file to local: $THIS -d remote_filename [local_filename]"
+  echo "auto sync local codebase to remote server: $THIS -f [codebase_dir]"
+  echo "stop auto sync: $THIS -kf [codebase_dir]"
+elif [[ $1 == "-f" ]]; then
+  if [[ $2 != "" ]]; then
+    CODEBASE="$2"
+  fi
+  sshfs -o idmap=user root@$IP:/home/$ME/Code/$CODEBASE ~/Code/remote/$CODEBASE
+elif [[ $1 == "-kf" ]]; then
+  if [[ $2 != "" ]]; then
+    CODEBASE="$2"
+  fi
+  killall -9 sshfs
+  fusermount -u ~/Code/remote/$CODEBASE
+elif [[ $1 == "-v" ]]; then
+  ssh -L 5900:127.0.0.1:5900 $ME@$IP
+else
+  ssh $ME@$IP
+fi
