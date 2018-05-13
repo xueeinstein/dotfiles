@@ -1,0 +1,8 @@
+#!/bin/bash
+ACTIVE_WIN=`wmctrl -lx | grep $(xprop -root | grep _NET_ACTIVE_WINDOW | head -1 | awk '{print $5}' | sed 's/,//' | sed 's/^0x/0x0/')`
+ACTIVE_WIN_ID=`echo $ACTIVE_WIN | awk '{print $1}'`
+
+rename=$(zenity --entry --title="Window Title" --text="new title:")
+if [[ "$rename" != "" ]]; then
+  wmctrl -i -r "$ACTIVE_WIN_ID" -T "$rename"
+fi
