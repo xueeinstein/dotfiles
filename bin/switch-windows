@@ -1,0 +1,27 @@
+#!/bin/bash
+ACTIVE_WIN=`wmctrl -lx | grep $(xprop -root | grep _NET_ACTIVE_WINDOW | head -1 | awk '{print $5}' | sed 's/,//' | sed 's/^0x/0x0/')`
+ACTIVE_WIN_TITLE=`echo $ACTIVE_WIN | awk '{$1=$2=$3=$4=""; print $0}'`
+ACTIVE_WIN_ID=`echo $ACTIVE_WIN | awk '{print $1}'`
+DESK=`echo $ACTIVE_WIN | awk '{print $2}'`
+
+if [[ $(wmctrl -lx | awk '$2 == '$DESK | grep -B 1 $ACTIVE_WIN_ID | wc -l) == 2 ]]; then
+  PREV_WIN=`wmctrl -lx | awk '$2 == '$DESK | grep -B 1 $ACTIVE_WIN_ID | head -1`
+else
+  # loop to last window
+  PREV_WIN=`wmctrl -lx | awk '$2 == '$DESK | tail -1`
+fi
+PREV_WIN_TITLE=`echo $PREV_WIN | awk '{$1=$2=$3=$4=""; print $0}'`
+
+if [[ $(wmctrl -lx | awk '$2 == '$DESK | grep -A 1 $ACTIVE_WIN_ID | wc -l) == 2 ]]; then
+  NEXT_WIN=`wmctrl -lx | awk '$2 == '$DESK | grep -A 1 $ACTIVE_WIN_ID | tail -1`
+else
+  # loop to first window
+  NEXT_WIN=`wmctrl -lx | awk '$2 == '$DESK | head -1`
+fi
+NEXT_WIN_TITLE=`echo $NEXT_WIN | awk '{$1=$2=$3=$4=""; print $0}'`
+
+if [[ $1 == '-p' ]]; then
+  wmctrl -a $PREV_WIN_TITLE
+elif [[ $1 == '-n' ]]; then
+  wmctrl -a $NEXT_WIN_TITLE
+fi
