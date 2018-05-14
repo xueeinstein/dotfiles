@@ -25,4 +25,8 @@ if [[ $1 == '-p' ]]; then
   wmctrl -a "${PREV_WIN_TITLE}"
 elif [[ $1 == '-n' ]]; then
   wmctrl -a "${NEXT_WIN_TITLE}"
+elif [[ $1 == '-t' ]]; then
+  TARGET_WIN=`wmctrl -lx | awk '$2 == '$DESK | sed -n $2p`
+  TARGET_WIN_TITLE=`echo $TARGET_WIN | awk '{print $5" "$6" "$7}' | sed -e 's/[[:space:]]*$//'`
+  wmctrl -a "${TARGET_WIN_TITLE}"
 fi
