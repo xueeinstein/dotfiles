@@ -1,5 +1,7 @@
 #!/bin/bash
-ACTIVE_WIN=`wmctrl -lx | grep $(xprop -root | grep _NET_ACTIVE_WINDOW | head -1 | awk '{print $5}' | sed 's/,//' | sed 's/^0x/0x0/')`
+WID=`xprop -root | grep _NET_ACTIVE_WINDOW | head -1 | awk '{print $5}'`
+WID="${WID:2}"
+ACTIVE_WIN=`wmctrl -lx | grep $WID`
 ACTIVE_WIN_ID=`echo $ACTIVE_WIN | awk '{print $1}'`
 DESK=`echo $ACTIVE_WIN | awk '{print $2}'`
 
