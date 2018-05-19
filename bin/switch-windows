@@ -5,13 +5,19 @@ ACTIVE_WIN=`wmctrl -lx | grep $WID`
 ACTIVE_WIN_ID=`echo $ACTIVE_WIN | awk '{print $1}'`
 DESK=`echo $ACTIVE_WIN | awk '{print $2}'`
 
+function get_proper_title() {
+  echo $1 | awk '{print $5" "$6" "$7}' | \
+    sed -e 's/N\/A//' | \
+    sed -e 's/[[:space:]]*$//' | sed -e 's/^[[:space:]]//'
+}
+
 if [[ $(wmctrl -lx | awk '$2 == '$DESK | grep -B 1 $ACTIVE_WIN_ID | wc -l) == 2 ]]; then
   PREV_WIN=`wmctrl -lx | awk '$2 == '$DESK | grep -B 1 $ACTIVE_WIN_ID | head -1`
 else
   # loop to last window
   PREV_WIN=`wmctrl -lx | awk '$2 == '$DESK | tail -1`
 fi
-PREV_WIN_TITLE=`echo $PREV_WIN | awk '{print $5" "$6" "$7}' | sed -e 's/[[:space:]]*$//'`
+PREV_WIN_TITLE=`get_proper_title "$PREV_WIN"`
 
 if [[ $(wmctrl -lx | awk '$2 == '$DESK | grep -A 1 $ACTIVE_WIN_ID | wc -l) == 2 ]]; then
   NEXT_WIN=`wmctrl -lx | awk '$2 == '$DESK | grep -A 1 $ACTIVE_WIN_ID | tail -1`
@@ -19,14 +25,14 @@ else
   # loop to first window
   NEXT_WIN=`wmctrl -lx | awk '$2 == '$DESK | head -1`
 fi
-NEXT_WIN_TITLE=`echo $NEXT_WIN | awk '{print $5" "$6" "$7}' | sed -e 's/[[:space:]]*$//'`
+NEXT_WIN_TITLE=`get_proper_title "$NEXT_WIN"`
 
 if [[ $1 == '-p' ]]; then
-  wmctrl -a "${PREV_WIN_TITLE}"
+  wmctrl -a "$PREV_WIN_TITLE"
 elif [[ $1 == '-n' ]]; then
-  wmctrl -a "${NEXT_WIN_TITLE}"
+  wmctrl -a "$NEXT_WIN_TITLE"
 elif [[ $1 == '-t' ]]; then
   TARGET_WIN=`wmctrl -lx | awk '$2 == '$DESK | sed -n $2p`
-  TARGET_WIN_TITLE=`echo $TARGET_WIN | awk '{print $5" "$6" "$7}' | sed -e 's/[[:space:]]*$//'`
-  wmctrl -a "${TARGET_WIN_TITLE}"
+  TARGET_WIN_TITLE=`get_proper_title "$TARGET_WIN"`
+  wmctrl -a "$TARGET_WIN_TITLE"
 fi
