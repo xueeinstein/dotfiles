@@ -1,0 +1,17 @@
+#!/bin/bash
+SENDER="unique-id-of-your-server"
+IP_DEV="eth0"
+RECEIVER="your-email-address"
+IP=`ifconfig | grep eth0 -A 1 | tail -n 1 | awk '{print $2}' | sed -e 's/addr://'`
+echo "IP monitor start..."
+echo "Current IP: "$IP
+
+while [[ 0 -lt 1 ]]; do
+  sleep 300
+  NEW_IP=`ifconfig | grep eth0 -A 1 | tail -n 1 | awk '{print $2}' | sed -e 's/addr://'`
+  if [[ $IP != $NEW_IP ]]; then
+    echo $SENDER" new IP: "$NEW_IP | sendmail -v "$RECEIVER"
+    IP="$NEW_IP"
+    echo "IP updated at "`date`
+  fi
+done
