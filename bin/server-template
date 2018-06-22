@@ -32,11 +32,14 @@ elif [[ $1 == "-f" ]]; then
     CODEBASE="$2"
   fi
   sshfs -o idmap=user root@$IP:/home/$ME/Code/$CODEBASE ~/Code/remote/$CODEBASE
+  PID=`ps -ax | grep sshfs | tail -n 2 | head -n 1 | awk '{print $1}'`
+  echo "$PID" > "/tmp/"$CODEBASE
 elif [[ $1 == "-kf" ]]; then
   if [[ $2 != "" ]]; then
     CODEBASE="$2"
   fi
-  killall -9 sshfs
+  PID=`cat "/tmp/"$CODEBASE`
+  kill -9 $PID
   fusermount -u ~/Code/remote/$CODEBASE
 elif [[ $1 == "-v" ]]; then
   ssh -L 5900:127.0.0.1:5900 $ME@$IP
