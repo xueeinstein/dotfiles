@@ -1,0 +1,91 @@
+#!/usr/bin/env python
+import re
+import argparse
+
+
+def parse_args():
+    arg_parser = argparse.ArgumentParser(
+        description='Parse LaTeX file to plain text, useful for Grammarly')
+    arg_parser.add_argument('-f', '--input-file', type=str, default='',
+                            help='input LaTeX file')
+
+    args = arg_parser.parse_args()
+    return args
+
+
+def get_bracket_content(line):
+    reg = re.search('\{.*\}', line)
+    return reg.group(0)[1:-1]
+
+
+def parse_sections(line, plain_text):
+    section_name = get_bracket_content(line)
+
+    head_str = '#'
+    if line.startswith('\sub'):
+        head_str += '#'
+    elif line.startswith('\subsub'):
+        head_str += '##'
+
+    plain_text.append(' '.join([head_str, section_name]))
+
+
+def parse_bracket_content(content, bracket_type):
+    if bracket_type == 'abstract':
+        return '# Abstract\n' + ' '.join(content)
+    elif bracket_type == 'figure':
+        p = re.compile('\\\caption\{.*\}')
+        res = p.findall(' '.join(content))
+        return res[0]
+    elif bracket_type == 'itemize':
+        res = ' '.join(content)
+        return res.replace('\\item', '\n')
+    else:
+        return ''
+
+
+def main(args):
+    plain_text, bracket_content = [], []
+    in_begin_end, begin_end_type = False, None
+    document_begin = False
+    with open(args.input_file, 'r') as f:
+        for l in f.readlines():
+            l = l.strip()
+
+            if l == '\\begin{document}':
+                document_begin = True
+
+            if not document_begin:
+                continue
+
+            if l == '':
+                plain_text.append('\n')
+
+            if l.startswith('\\section') or l.startswith('\\subsection') or \
+               l.startswith('\\subsubsection'):
+                parse_sections(l, plain_text)
+
+            elif l.startswith('\\begin') and get_bracket_content(l) != 'document':
+                in_begin_end = True
+                begin_end_type = get_bracket_content(l).lower()
+
+            elif l.startswith('\\end') and get_bracket_content(l) != 'document':
+                in_begin_end = False
+                plain_text.append(
+                    parse_bracket_content(bracket_content, begin_end_type))
+                bracket_content = []
+
+            else:
+                if not in_begin_end:
+                    # main text
+                    if not l.startswith('%'):
+                        plain_text.append(l)
+                else:
+                    bracket_content.append(l)
+
+        print(' '.join(plain_text))
+
+
+if __name__ == '__main__':
+    args = parse_args()
+    main(args)
