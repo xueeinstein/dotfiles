@@ -246,6 +246,10 @@ function tre() {
 }
 
 # `ldir` shows the environment array ldir
+export BLDIR=("_Quick_ldir_")
+if [ ! -e ~/.ldir ]; then
+   touch ~/.ldir
+fi
 function ldir() {
 	if [ $# -eq 0 ]; then
 		PS3="Please select the directory to switch: "
@@ -296,14 +300,60 @@ function ldir() {
 			return 0;
 		fi
 
+		if [[ $1 == '-b' ]]; then
+                        if [[ $# -eq 1 ]]; then
+                            restoreDirBookmarks ~/.ldir
+                            PS3="Please select the directory to switch: "
+                            select opt in "${BLDIR[@]}"
+                            do
+                                    if ! containsEle "$opt" "${BLDIR[@]}"; then
+                                            echo "Invaild option!";
+                                            continue;
+                                    fi
+                                    case $opt in
+                                            "_Quit_ldir_")
+                                                    return 0
+                                                    ;;
+                                            *)
+                                                    cd "$opt";
+                                                    return 0
+                                                    ;;
+                                    esac
+                            done
+                        fi
+
+                        if [[ $# -eq 2 ]]; then
+                            if [ ! -d "$2" ]; then
+                                    echo "$2 doesn't exist!";
+                                    return 1;
+                            fi
+
+                            if [[ $1 =~ ^/ ]]; then
+                                    abs_path=$2
+                            else
+                                    abs_path=$( cd "$2" && pwd );
+                            fi
+
+                            if ! containsEle "$abs_path" "${BLDIR[@]}"; then
+                                    echo "$abs_path" >> ~/.ldir
+                                    echo "Added "$abs_path" to bookmarks"
+                            else
+                                    echo $abs_path" already exist in bookmarks"
+                            fi
+
+                            return 0
+                        fi
+		fi
+
+		if [ ! -d "$1" ]; then
+			echo "$1 doesn't exist!";
+			return 1;
+		fi
+
 		if [[ $1 =~ ^/ ]]; then
 			abs_path=$1
 		else
 			abs_path=$( cd "$1" && pwd );
-		fi
-		if [ ! -d "$abs_path" ]; then
-			echo "$abs_path doesn't exist!";
-			return 1;
 		fi
 
 		if ! containsEle "$abs_path" "${LDIR[@]}"; then
@@ -319,6 +369,18 @@ function containsEle() {
 	do [[ "$e" == "$1" ]] && return 0; done
 	return 1
 }
+function restoreDirBookmarks() {
+        oldIFS="$IFS"
+        IFS=$'\n' arr=($(<$1))
+        IFS="$oldIFS"
+        export BLDIR=("_Quit_ldir_")
+        for i in "${arr[@]}"
+        do
+          BLDIR+=("$i")
+        done
+        return 1
+}
+
 # git show conflict files during rebase
 function showpatch() {
 	git show $(head -1 .git/rebase-apply/${1} | awk '{ print $2 }')
