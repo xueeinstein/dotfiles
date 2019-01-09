@@ -40,6 +40,12 @@ def parse_bracket_content(content, bracket_type):
     elif bracket_type == 'itemize':
         res = ' '.join(content)
         return res.replace('\\item', '\n')
+    elif bracket_type == 'letter':
+        for i in range(len(content)):
+            if content[i] == '':
+                content[i] = '\n\n'
+        res = ' '.join(content)
+        return res.replace('\\\\', '\n')
     else:
         return ''
 
