@@ -1,0 +1,17 @@
+#!/bin/bash
+PIC="$HOME/Pictures"
+last_screenshot=$(ls -c $PIC | head -n1)
+file "$PIC/$last_screenshot"
+
+# to resize
+read -p "Do you want to resize it? (Y/N): " to_resize
+if [[ $to_resize == [yY] || $to_resize == [yY][eE][sS] ]]; then
+    read -p "Resize arg for convert: " resize_arg
+    convert "$PIC/$last_screenshot" -resize $resize_arg "$PIC/$last_screenshot"
+fi
+
+read -p "Move to another directory? (Y/N): " to_move
+if [[ $to_move == [yY] || $to_move == [yY][eE][sS] ]]; then
+    read -p "Target directory: " target_dir
+    mv "$PIC/$last_screenshot" "$target_dir"
+fi
