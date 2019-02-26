@@ -1,0 +1,16 @@
+#!/bin/bash
+if [ "$1" == "-u" ]; then
+  sudo systemctl start httpd
+elif [ "$1" == "-d" ]; then
+  sudo systemctl stop httpd
+elif [ "$1" == "-r" ]; then
+  sudo systemctl restart httpd
+elif [ "$1" == "-s" ]; then
+  sudo systemctl status httpd
+else
+  echo "Usage:"
+  echo "    To start:   http-server -u"
+  echo "    To stop:    http-server -d"
+  echo "    To restart: http-server -r"
+  echo "    To check:   http-server -s"
+fi
