@@ -2,6 +2,8 @@
 PIC="$HOME/Pictures"
 last_screenshot=$(ls -c $PIC | head -n1)
 file "$PIC/$last_screenshot"
+chmod 644 "$PIC/$last_screenshot"
+ls -alh "$PIC/$last_screenshot"
 
 # to resize
 read -p "Do you want to resize it? (Y/N): " to_resize
