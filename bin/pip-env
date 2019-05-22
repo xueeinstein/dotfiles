@@ -1,0 +1,33 @@
+#!/bin/bash
+check_invenv()
+{
+    if [[ "$VIRTUAL_ENV" == "" ]]; then
+        echo "Active virtual env at first"
+        exit 0
+    fi
+}
+
+check_install()
+{
+    if [[ $(pip list | grep "$1") != "" ]]; then
+       echo "$1 already installed"
+       exit 0
+    fi
+}
+
+if [[ "$1" == "init" ]]; then
+   echo "Create virtual env under 'venv'"
+   virtualenv --system-site-packages venv
+elif [[ "$1" == "replace" ]]; then
+    echo "Replace global pip package $2"
+    check_invenv
+    pip install --upgrade --ignore-installed "$2"
+elif [[ "$1" == "install" ]]; then
+    check_invenv
+    check_install "$2"
+    pip install "$2"
+else
+    echo "pip-env init"
+    echo "pip-env replace <pkg>"
+    echo "pip-env install <pkg>"
+fi
